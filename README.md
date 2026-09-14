@@ -16,6 +16,19 @@ The `default` preset does a number of things for a repository that uses it:
 
 As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
 
+To use the preset(s) in this repository, simply add `github>AnarchoBooleanism/renovate-config` as an entry in the `extends` part of your Renovate config, like this:
+```json
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config"
+  ]
+}
+```
+
+Adding `config:best-practices` or `config:recommended` is not necessary, as this Renovate configuration already adds those presests.
+
 ## Custom package managers
 In addition to the pre-defined package manager types in Renovate, you can also add your own; this can be useful for package ecosystems that Renovate does not support or for package version declarations outside of a formal package manager.
 
