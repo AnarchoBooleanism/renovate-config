@@ -17,7 +17,7 @@ The `default` preset does a number of things for a repository that uses it:
 As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
 
 To use the preset(s) in this repository, simply add `github>AnarchoBooleanism/renovate-config` as an entry in the `extends` part of your Renovate config, like this:
-```json
+```jsonc
 {
   // Overall Renovate config
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
