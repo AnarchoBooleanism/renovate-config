@@ -179,7 +179,7 @@
         "smithy"
       ]
     },
-    { // bun
+    {
       "addLabels": ["javascript"], // Color: #168700
       "matchManagers": [
         "bun",
