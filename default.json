@@ -340,8 +340,8 @@
       ],
       "matchStrings": [
         "(?<comment>[ \\t]*#[ \\t]+renovate:[ \\t]+datasource=(?<datasource>[^\\s]+)[ \\t]+depName=(?<depName>[^\\s]+)(?:[ \\t]+versioning=(?<versioning>[^\\s]+))?(?:[ \\t]+registryUrl=(?<registryUrl>[^\\s]+))?\\n\\s*)(?<prefix>(?:-\\s+)?[a-zA-Z_][a-zA-Z0-9_-]*:[ \\t]+)(?<anchor>&[a-zA-Z_][a-zA-Z0-9_-]*[ \\t]+)?(?<quote>[\"'])?(?<currentValue>[^\"'\\s]+)(?:[\"'])?"
-      ],
-      "autoReplaceStringTemplate": "{{{comment}}}{{{prefix}}}{{{anchor}}}{{{quote}}}{{{newValue}}}{{{quote}}}"
+      ]// ,
+      // "autoReplaceStringTemplate": "{{{comment}}}{{{prefix}}}{{{anchor}}}{{{quote}}}{{{newValue}}}{{{quote}}}"
     }
   ]
 }
