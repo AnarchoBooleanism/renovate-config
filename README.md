@@ -27,6 +27,19 @@ To use the preset(s) in this repository, simply add `github>AnarchoBooleanism/re
 }
 ```
 
+As best practice, however, it is recommended to specify the preset(s) with a Git version tag, like this:
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config#v1.0.0"
+  ]
+}
+```
+
+Generally, tags will be in SemVer format, with a leading `v`; each tag (for production) should have a corresponding GitHub Release, as well.
+
 Adding `config:best-practices` or `config:recommended` is not necessary, as this Renovate configuration already adds those presests.
 
 ## Custom package managers
