@@ -12,6 +12,7 @@
   // NOTE: Renovate does NOT support minute granularity, so it is specified as "*"
   "schedule": ["* 6 * * 1"], // Every Monday at 6:00 AM
   "prHourlyLimit": 0,
+  "prConcurrentLimit": 0,
 
   // Labels (most will be defined in packageRules)
   "labels": ["dependencies"],
