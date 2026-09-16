@@ -1,7 +1,8 @@
 // Custom managers for self-updating based on GitHub Releases
 
-// This is just for the AnarchoBooleanism/renovate-config repository,
-// and importantly, this is opt-in-only.
+// This is just for presets from AnarchoBooleanism/renovate-config,
+// only for presets that name "local" instead of "github", and
+// importantly, this is opt-in-only.
 
 // Any preset referenced must have "// self-update" in the same line
 // after its name is referenced, after any comma, or
@@ -10,7 +11,7 @@
 // that it must be before any commas before the next preset is defined.
 
 // Example of the single-line approach (adding (.) to make sure Renovate doesn't modify the below lines):
-// "github>AnarchoBooleanism/renovate-config#v1.0.0", (.) // self-update
+// "local>AnarchoBooleanism/renovate-config#v1.0.0", (.) // self-update
 // Note that the amount of whitespace between the preset name, "//",
 // and self-update is flexible.
 // However, there cannot be any newlines between any of them.
@@ -26,7 +27,7 @@
 
 // This self-update functionality also works for named presets and
 // preset paths, too, like in this example:
-// "github>AnarchoBooleanism/renovate-config//modules/scheduling#v1.0.0", (.) // self-update
+// "local>AnarchoBooleanism/renovate-config//modules/scheduling#v1.0.0", (.) // self-update
 
 // As well, any updates for presets that come from this repository
 // will be grouped together.
@@ -43,24 +44,13 @@
         "**/*.json5"
       ],
       "matchStrings": [
-        "\"(local|github)>AnarchoBooleanism\\/renovate-config([^\"'\\s]+)?#(?<currentValue>[^\"'\\s]+)\"[ \\t]*(\\s*(\\/\\*\\s*self-update\\s*\\*\\/)|(,?[ \\t]*\\/\\/)[ \\t]*self-update)"
+        "\"local>AnarchoBooleanism\\/renovate-config([^\"'\\s]+)?#(?<currentValue>[^\"'\\s]+)\"[ \\t]*(\\s*(\\/\\*\\s*self-update\\s*\\*\\/)|(,?[ \\t]*\\/\\/)[ \\t]*self-update)"
       ],
 
       // Built-in dependency data
       "datasourceTemplate": "github-releases",
       "depNameTemplate": "AnarchoBooleanism/renovate-config",
       "versioningTemplate": "semver"
-    }
-  ],
-
-  "packageRules": [
-    // Group preset updates together
-    {
-      "groupName": "AnarchoBooleanism_renovate-config",
-      "matchManagers": ["custom.regex"],
-      "matchPackageNames": [
-        "AnarchoBooleanism/renovate-config"
-      ]
     }
   ]
 }

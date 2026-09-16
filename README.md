@@ -7,10 +7,11 @@ The `default` preset does a number of things for a repository that uses it:
 - Ensure lock files are maintained (from `config:best-practices`)
 - Forces semantic commits (from `:semanticCommits`)
 - Enable major version updates for Docker images (from `docker:enableMajor`)
-- Sets a weekly update schedule to run every Monday at 6:00 AM (`America/Los_Angeles` time)
-- Uncaps the amount of pull requests made at a time
-- Adds labels for pull requests based on the package ecosystem
-- Creates a custom manager type that can be applied to any version number declaration in any YAML file
+- Sets a weekly update schedule to run every Monday at 6:00 AM, `America/Los_Angeles` time (from `modules/scheduling`)
+- Uncaps the amount of pull requests made at a time (from `modules/scheduling`)
+- Adds labels for pull requests based on the package ecosystem (from `modules/pr-labels`)
+- Creates a custom manager type that can be applied to any version number declaration in any YAML file (from `modules/managers`)
+- Groups updates for presets from this repository together for pull requests (from `modules/groups`)
 
 **NOTE**: Unlike Dependabot, Renovate does not automatically create labels for package ecosystems, with colors and descriptions! When introducing new package ecosystems to a repository, make sure to create a label for the ecosystem with the color described in this repository's Renovate file! As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
 
@@ -42,7 +43,9 @@ As another note, adding `config:best-practices` or `config:recommended` is not n
 
 ## Self-updating
 
-If using version tags, this Renovate configuration, by default, comes with the ability to have Renovate automatically update the version tag, just like any other dependency. However, it is opt-in for each specific reference to the presets in this repository, by adding a specific type of comment (with just the text, `self-update`, and nothing else beyond whitespace) after the preset is specified. Depending on the circumstances, either single-line or multi-line comments can be used.
+If using version tags, assuming that the name of the repository is in the context of `github`, then Renovate should be able to automatically update itself (no extra work needed). However, if the name of the repository is in the context of `local`, then Renovate will not be able to match it to a package.
+
+For such cases, this Renovate configuration, by default, comes with the ability to have Renovate automatically update the version tag, just like any other dependency. However, with it being based on regex, and therefore unable to understand context, it is opt-in for each specific reference to the presets in this repository. Opting in is done by adding a specific type of comment (with just the text, `self-update`, and nothing else beyond whitespace) after the preset is specified. Depending on the circumstances, either single-line or multi-line comments can be used.
 
 Here is an example of how this is used (with single-line comments):
 ```jsonc
@@ -50,8 +53,8 @@ Here is an example of how this is used (with single-line comments):
   // Overall Renovate config
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>AnarchoBooleanism/renovate-config#v1.0.0", // self-update
-    "github>AnarchoBooleanism/renovate-config//example#v1.0.0" // self-update
+    "local>AnarchoBooleanism/renovate-config#v1.0.0", // self-update
+    "local>AnarchoBooleanism/renovate-config//example#v1.0.0" // self-update
   ]
 }
 ```
@@ -64,7 +67,7 @@ Using multi-line comments (with just the text `self-update`) can be much more fl
   // Overall Renovate config
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>AnarchoBooleanism/renovate-config#v1.0.0" /* self-update */, // Example comment
+    "local>AnarchoBooleanism/renovate-config#v1.0.0" /* self-update */, // Example comment
     "example-preset"
   ]
 }
@@ -75,7 +78,7 @@ Here is another example where the multi-line comment approach is used:
 {
   // Overall Renovate config
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["github>AnarchoBooleanism/renovate-config#v1.0.0"/*self-update*/,"example-preset"]
+  "extends": ["local>AnarchoBooleanism/renovate-config#v1.0.0"/*self-update*/,"example-preset"]
 }
 ```
 
@@ -87,7 +90,7 @@ Like the single-line comment approach, the amount of whitespace is flexible, goi
   // Overall Renovate config
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "github>AnarchoBooleanism/renovate-config#v1.0.0"
+    "local>AnarchoBooleanism/renovate-config#v1.0.0"
     /*
     self-update
     */,
@@ -103,10 +106,11 @@ Furthermore, if the presets in this repository are referenced more than once (an
 ## Modules
 
 There also exist various modules of configuration in the case you don't want to pull `default.json` wholesale, all in the `modules` subdirectory:
-- `managers.json`: Defines custom managers, e.g. the custom YAML comment manager
-- `pr-labels.json`: Creates rules for creating labels for pull requests, based on package ecosystem
-- `scheduling.json`: Rules for schedule and time-based limits
-- `self-update.json`: Functionality for self-updating this Renovate configuration as a dependency in other repositories
+- `groups`: Defines groups of packages to group together for pull requests, including that of the presets of this repository
+- `managers`: Defines custom managers, e.g. the custom YAML comment manager
+- `pr-labels`: Creates rules for creating labels for pull requests, based on package ecosystem
+- `scheduling`: Rules for schedule and time-based limits
+- `self-update`: Functionality for self-updating this Renovate configuration as a dependency in other repositories
 
 To use the individual modules provided by this repository, after the end of the repository name, simply add two forward slashes (`//`) and the path of the module relative to the repository root (without the file extension), with another leading slash, resulting in this syntax: `github>AnarchoBooleanism/renovate-config//MODULE-FILE-PATH` (note that the `.json` part of the file name should be skipped here)
 

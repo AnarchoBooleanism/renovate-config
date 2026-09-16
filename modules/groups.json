@@ -1,0 +1,16 @@
+// Package groups for pull requests
+
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "packageRules": [
+    // Group preset updates together
+    {
+      "groupName": "AnarchoBooleanism_renovate-config",
+      "matchManagers": ["custom.regex", "renovate-config"],
+      "matchPackageNames": [
+        "AnarchoBooleanism/renovate-config"
+      ]
+    }
+  ]
+}
