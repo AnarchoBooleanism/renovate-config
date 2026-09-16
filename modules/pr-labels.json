@@ -4,17 +4,21 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
   // Labels (most will be defined in packageRules)
+
+  // NOTE: Unlike Dependabot, Renovate does not set colors for PR labels, so please
+  // manually set colors (and descriptions) for labels when adding new package managers
+  // Each rule below has a color associated with it that you can use.
+  // When creating a label in GitHub, use this template for the description:
+  // "Pull requests that update <ECOSYSTEM> code"
+
+  // The color for this is: #0366D6
+  // The description for this should be:
+  // "Pull requests that update a dependency file"
   "labels": ["dependencies"],
 
   // Package rules
   "packageRules": [
     // Labels, specific to package managers
-
-    // NOTE: Unlike Dependabot, Renovate does not set colors for PR labels, so please
-    // manually set colors (and descriptions) for labels when adding new package managers
-    // Each rule below has a color associated with it that you can use.
-    // When creating a label in GitHub, use this template for the description:
-    // "Pull requests that update <ECOSYSTEM> code"
 
     // Copied from Dependabot, see: https://github.com/search?q=repo%3Adependabot%2Fdependabot-core+register_label_details&type=code
     // Also see: https://docs.renovatebot.com/modules/manager/
