@@ -4,7 +4,7 @@ on: # Only run on new version tag push
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]+"
-      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z-]+.[0-9]+"
 
 env:
   IMAGE_NAME: ${{ github.repository }}
