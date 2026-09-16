@@ -8,9 +8,10 @@
     "docker:enableMajor",
 
     // In-repo
+    "./modules/groups.json",
     "./modules/managers.json",
     "./modules/pr-labels.json",
     "./modules/scheduling.json",
-    "./modules/self-update.json",
+    "./modules/self-update.json"
   ]
 }
