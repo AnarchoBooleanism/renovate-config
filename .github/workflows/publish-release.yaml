@@ -3,8 +3,8 @@ name: Create release upon tag creation
 on: # Only run on new version tag push
   push:
     tags:
-      - "v[0-9]+.[0-9]+.[0-9]+"
-      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z-]+.[0-9]+"
+      - "v[0-9]+.[0-9]+.[0-9]+" # e.g. v1.0.0
+      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z-]+.[0-9]+" # e.g. v1.0.0-beta.1
 
 env:
   IMAGE_NAME: ${{ github.repository }}
