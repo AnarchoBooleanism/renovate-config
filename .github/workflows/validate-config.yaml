@@ -17,8 +17,8 @@ on:
       - ".github/**"
 
 jobs:
-  flake-check:
-    name: Check flake
+  validate-config:
+    name: Validate config
     runs-on: ubuntu-latest
     permissions:
       contents: read
