@@ -10,6 +10,7 @@
     // In-repo
     "./modules/managers.json",
     "./modules/pr-labels.json",
-    "./modules/scheduling.json"
+    "./modules/scheduling.json",
+    "./modules/self-update.json",
   ]
 }
