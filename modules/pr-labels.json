@@ -76,7 +76,7 @@
     },
     { // Custom-made for here
       "addLabels": ["custom_managers"], // Color: #000000
-      "matchManagers": ["regex", "jsonata"] 
+      "matchManagers": ["custom.regex", "jsonata"] 
     },
     // { // Does not exist in Renovate
     //   "addLabels": ["conda"] // Color: #44A047
