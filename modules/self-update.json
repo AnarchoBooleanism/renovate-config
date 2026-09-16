@@ -9,14 +9,14 @@
 // or "]" symbol; for the multi-line comment approach, this means
 // that it must be before any commas before the next preset is defined.
 
-// Example of the single-line approach:
-// "github>AnarchoBooleanism/renovate-config#v1.0.0", // self-update
+// Example of the single-line approach (adding (.) to make sure Renovate doesn't modify the below lines):
+// "github>AnarchoBooleanism/renovate-config#v1.0.0", (.) // self-update
 // Note that the amount of whitespace between the preset name, "//",
 // and self-update is flexible.
 // However, there cannot be any newlines between any of them.
 
-// Example of the multi-line approach:
-// "local>AnarchoBooleanism/renovate-config#v1.0.0" /* self-update */,
+// Example of the multi-line approach (adding (.) to make sure Renovate doesn't modify the below lines):
+// "local>AnarchoBooleanism/renovate-config#v1.0.0" (.) /* self-update */,
 // Like the previous approach, the amount of whitespace between the
 // preset name, "/*", self-update, and "*/" is flexible (including
 // no whitespace).
@@ -26,7 +26,7 @@
 
 // This self-update functionality also works for named presets and
 // preset paths, too, like in this example:
-// "github>AnarchoBooleanism/renovate-config//modules/scheduling#v1.0.0", // self-update
+// "github>AnarchoBooleanism/renovate-config//modules/scheduling#v1.0.0", (.) // self-update
 
 // As well, any updates for presets that come from this repository
 // will be grouped together.
