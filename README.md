@@ -27,7 +27,7 @@ To use the preset(s) in this repository, simply add `github>AnarchoBooleanism/re
 }
 ```
 
-As best practice, however, it is recommended to specify the preset(s) with a Git version tag, like this:
+As best practice for reproducibility, however, it is recommended to specify the preset(s) with a Git version tag, like this:
 ```jsonc
 {
   // Overall Renovate config
@@ -40,7 +40,36 @@ As best practice, however, it is recommended to specify the preset(s) with a Git
 
 Generally, tags will be in SemVer format, with a leading `v`; each tag (for production) should have a corresponding GitHub Release, as well.
 
-Adding `config:best-practices` or `config:recommended` is not necessary, as this Renovate configuration already adds those presests.
+There also exist various modules of configuration in the case you don't want to pull `default.json` wholesale, all in the `modules` subdirectory:
+- `managers.json`: Defines custom managers, e.g. the custom YAML comment manager
+- `pr-labels.json`: Creates rules for creating labels for pull requests, based on package ecosystem
+- `scheduling.json`: Rules for schedule and time-based limits
+
+To use the individual modules provided by this repository, after the end of the repository name, simply add two forward slashes (`//`) and the path of the module relative to the repository root (without the file extension), with another leading slash, resulting in this syntax: `github>AnarchoBooleanism/renovate-config//MODULE-FILE-PATH` (note that the `.json` part of the file name should be skipped here)
+
+Here is an example of this in action (for `/modules/pr-labels.json`):
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config//modules/pr-labels"
+  ]
+}
+```
+
+Like the default configuration, it is best practice for reproducibility to use modules with version tags, by adding the `#` symbol and the version tag name at the end, like this:
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config//modules/pr-labels#v1.0.0"
+  ]
+}
+```
+
+As another note, adding `config:best-practices` or `config:recommended` is not necessary when using the default configuration, as this Renovate configuration already adds those presests.
 
 ## Custom package managers
 In addition to the pre-defined package manager types in Renovate, you can also add your own; this can be useful for package ecosystems that Renovate does not support or for package version declarations outside of a formal package manager.
