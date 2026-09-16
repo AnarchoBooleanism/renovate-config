@@ -2,10 +2,11 @@ name: Create release upon tag creation
 
 on: # Only run on new version tag push
   push:
-    tags: [ v* ]
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+" # e.g. v1.0.0
+      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z-]+.[0-9]+" # e.g. v1.0.0-beta.1
 
 env:
-  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
 
 permissions:
@@ -17,11 +18,25 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v7
+      - name: Determine whether version tag is prerelease
+        env:
+          TAG_STRING: "${{ github.ref_name }}"
+        run: |
+          REGEX='-[a-zA-Z0-9.-]+$'
+
+          if [[ "$TAG_STRING" =~ $REGEX ]]; then
+            printf 'Tag \"%s\" is a prerelease tag!\n' "$TAG_STRING"
+            printf "TAG_IS_PRERELEASE=%s\n" "true" >> $GITHUB_ENV
+          else
+            printf 'Tag \"%s\" is NOT a prerelease tag!\n' "$TAG_STRING"
+            printf "TAG_IS_PRERELEASE=%s\n" "false" >> $GITHUB_ENV
+          fi
       - name: Create GitHub Release
         id: create-release
         uses: softprops/action-gh-release@v3
         with:
           draft: true
+          prerelease: ${{ env.TAG_IS_PRERELEASE == 'true' }}
           generate_release_notes: true
       - name: Create GitHub Release notification summary
         run: |
