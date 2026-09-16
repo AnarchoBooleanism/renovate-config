@@ -57,6 +57,7 @@
     // Group preset updates together
     {
       "groupName": "AnarchoBooleanism_renovate-config",
+      "matchManagers": ["custom.regex"],
       "matchPackageNames": [
         "AnarchoBooleanism/renovate-config"
       ]
