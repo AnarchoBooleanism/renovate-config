@@ -1,16 +1,46 @@
 name: Create release upon tag creation
+ 
+# Version tags intended for release should be in the SemVer format of vX.Y.Z or vX.Y.Z-A.B, 
+# where X represents the major number, Y represents the minor number, Z represents the
+# patch number, A represents the pre-release type (e.g. beta or rc), and B represents the
+# number for that pre-release type.
+
+# Examples: 'v1.0.0', 'v1.0.0-rc.1'
 
 on: # Only run on new version tag push
   push:
-    tags:
-      - "v[0-9]+.[0-9]+.[0-9]+" # e.g. v1.0.0
-      - "v[0-9]+.[0-9]+.[0-9]+-[a-zA-Z-]+.[0-9]+" # e.g. v1.0.0-beta.1
+    tags: 
+      - "v*.*.*"
+      - "v*.*.*-*"
 
 permissions:
   contents: write
   
 jobs:
+  check-tag:
+    name: Check version tag syntax before continuing
+    outputs:
+      valid: ${{ steps.check.outputs.valid }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate version name
+        id: check
+        env:
+          TAG_STRING: "${{ github.ref_name }}"
+        run: |
+          REGEX='^v[0-9]+\.[0-9]+\.[0-9]+(-[a-zA-Z-]+\.[0-9]+)?$'
+
+          if [[ "$TAG_STRING" =~ $REGEX ]]; then
+            printf "Tag \"%s\" is a valid version tag!\n" "$TAG_STRING"
+            printf "valid=%s\n" "true" >> $GITHUB_OUTPUT
+          else
+            printf "Tag \"%s\" is NOT a valid version tag!\n" "$TAG_STRING"
+            printf "valid=%s\n" "false" >> $GITHUB_OUTPUT
+          fi
   release:
+    name: Publish release
+    needs: check-tag
+    if: needs.check-tag.outputs.valid == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
