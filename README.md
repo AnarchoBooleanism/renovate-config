@@ -12,9 +12,7 @@ The `default` preset does a number of things for a repository that uses it:
 - Adds labels for pull requests based on the package ecosystem
 - Creates a custom manager type that can be applied to any version number declaration in any YAML file
 
-**NOTE**: Unlike Dependabot, Renovate does not automatically create labels for package ecosystems, with colors and descriptions! When introducing new package ecosystems to a repository, make sure to create a label for the ecosystem with the color described in this repository's Renovate file!
-
-As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
+**NOTE**: Unlike Dependabot, Renovate does not automatically create labels for package ecosystems, with colors and descriptions! When introducing new package ecosystems to a repository, make sure to create a label for the ecosystem with the color described in this repository's Renovate file! As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
 
 To use the preset(s) in this repository, simply add `github>AnarchoBooleanism/renovate-config` as an entry in the `extends` part of your Renovate config, like this:
 ```jsonc
@@ -40,10 +38,75 @@ As best practice for reproducibility, however, it is recommended to specify the 
 
 Generally, tags will be in SemVer format, with a leading `v`; each tag (for production) should have a corresponding GitHub Release, as well.
 
+As another note, adding `config:best-practices` or `config:recommended` is not necessary when using the default configuration, as this Renovate configuration already adds those presests.
+
+## Self-updating
+
+If using version tags, this Renovate configuration, by default, comes with the ability to have Renovate automatically update the version tag, just like any other dependency. However, it is opt-in for each specific reference to the presets in this repository, by adding a specific type of comment (with just the text, `self-update`, and nothing else beyond whitespace) after the preset is specified. Depending on the circumstances, either single-line or multi-line comments can be used.
+
+Here is an example of how this is used (with single-line comments):
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config#v1.0.0", // self-update
+    "github>AnarchoBooleanism/renovate-config//example#v1.0.0" // self-update
+  ]
+}
+```
+
+In the above example, the comment with `self-update` is listed at the end of the line where a preset is specified, marking the preset before it as a dependency to update. Note that the comment can be placed after the comma, and, as well, that the amount of non-newline whitespace that you can add is flexible, going from any amount of whitespace to no whitespace. However, with the single-line comment approach, the `// self-update` comment has to be on the same line as the selected preset.
+
+Using multi-line comments (with just the text `self-update`) can be much more flexible in certain scenarios, like in this example:
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config#v1.0.0" /* self-update */, // Example comment
+    "example-preset"
+  ]
+}
+```
+
+Here is another example where the multi-line comment approach is used:
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["github>AnarchoBooleanism/renovate-config#v1.0.0"/*self-update*/,"example-preset"]
+}
+```
+
+In the above examples, the comment with `self-update` is listed just after a preset is specified, but *before* another preset can be specified (meaning before the comma) and before the end of the array is marked with the `]` symbol.
+
+Like the single-line comment approach, the amount of whitespace is flexible, going from none to any amount, but unlike the single-line approach, the whitespace can also include newlines, like in the below example:
+```jsonc
+{
+  // Overall Renovate config
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "github>AnarchoBooleanism/renovate-config#v1.0.0"
+    /*
+    self-update
+    */,
+    "example-preset"
+  ]
+}
+```
+
+There can be any amount of newlines between the preset name, `/*`, `self-update`, `*/` and the next tokens. The only hard rule is that, outside of whitespace, the comment can only include `self-update`, and that it must be placed before a comma or the end of the array (`]`).
+
+Furthermore, if the presets in this repository are referenced more than once (and use the self-update functionality), updates to their version tags will be grouped together as a single pull request. 
+
+## Modules
+
 There also exist various modules of configuration in the case you don't want to pull `default.json` wholesale, all in the `modules` subdirectory:
 - `managers.json`: Defines custom managers, e.g. the custom YAML comment manager
 - `pr-labels.json`: Creates rules for creating labels for pull requests, based on package ecosystem
 - `scheduling.json`: Rules for schedule and time-based limits
+- `self-update.json`: Functionality for self-updating this Renovate configuration as a dependency in other repositories
 
 To use the individual modules provided by this repository, after the end of the repository name, simply add two forward slashes (`//`) and the path of the module relative to the repository root (without the file extension), with another leading slash, resulting in this syntax: `github>AnarchoBooleanism/renovate-config//MODULE-FILE-PATH` (note that the `.json` part of the file name should be skipped here)
 
@@ -68,8 +131,6 @@ Like the default configuration, it is best practice for reproducibility to use m
   ]
 }
 ```
-
-As another note, adding `config:best-practices` or `config:recommended` is not necessary when using the default configuration, as this Renovate configuration already adds those presests.
 
 ## Custom package managers
 In addition to the pre-defined package manager types in Renovate, you can also add your own; this can be useful for package ecosystems that Renovate does not support or for package version declarations outside of a formal package manager.
