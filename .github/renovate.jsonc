@@ -1,6 +1,6 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "local>AnarchoBooleanism/renovate-config#v3.0.0" // self-update
+    "local>AnarchoBooleanism/renovate-config#v4.0.0" // self-update
   ]
 }
