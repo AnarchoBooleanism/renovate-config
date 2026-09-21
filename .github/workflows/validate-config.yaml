@@ -34,11 +34,7 @@ jobs:
           # We want to only do files that will be used by other repositories
           files=$(git ls-files -- '*.json*' ':!:.github')
           
-          {
-            echo "files<<$EOF"
-            echo "$files"
-            echo "$EOF"
-          } >> "$GITHUB_OUTPUT"
+          printf "%s<<%s\n%s\n%s\n" "files" "$EOF" "$files" "$EOF" >> "$GITHUB_OUTPUT"
       - name: Validate Renovate config files
         uses: suzuki-shunsuke/github-action-renovate-config-validator@ee9f69e1f683ed0d08225086482b34fc9abe9300 # v2.1.0
         with:
