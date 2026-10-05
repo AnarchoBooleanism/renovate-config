@@ -2,6 +2,8 @@
 
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  
+  "description": "Default Renovate config for AnarchoBooleanism/renovate-config",
   "extends": [
     "config:best-practices",
     ":semanticCommits",
