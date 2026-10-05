@@ -3,6 +3,8 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
 
+  "description": "Pull request labels, based on package ecosystems",
+
   // Labels (most will be defined in packageRules)
 
   // NOTE: Unlike Dependabot, Renovate does not set colors for PR labels, so please
