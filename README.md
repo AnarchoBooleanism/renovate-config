@@ -156,4 +156,21 @@ Here is an example of this in action:
 NIXOS_CLOUDINIT_ISO_VERSION: &cloudinit-iso-version "v2.12.0"
 ```
 
-From the perspective of the YAML parser, it just sees the `NIXOS_CLOUDINIT_ISO_VERSION` key defined as `v2.12.0`, with an anchor (`cloudinit-iso-version` attached to it). However, Renovate is able to see the datasource (`github-releases`), the dependency/package name (`AnarchoBooleanism/nixos-cloud-init-installer`), a versioning type (`semver`), and a version number to change (`v2.12.0`), and can easily change the version number without affecting the formatting.
+From the perspective of the YAML parser, it just sees the `NIXOS_CLOUDINIT_ISO_VERSION` key defined as `v2.12.0`, with an anchor (`cloudinit-iso-version`) attached to it. However, Renovate is able to see the datasource (`github-releases`), the dependency/package name (`AnarchoBooleanism/nixos-cloud-init-installer`), a versioning type (`semver`), and a version number to change (`v2.12.0`), and can easily change the version number without affecting the formatting.
+
+### Dockerfile definitions
+This repository also provides a built-in custom manager for Dockerfiles (only for `ARG`). To use it, use this format (note that no quotes are involved):
+```dockerfile
+# renovate: datasource=DATASOURCE depName=DEPNAME versioning=OPTIONAL_VERSIONING
+ARG VERSION_KEY_NAME=VERSION_VALUE
+```
+
+Note that the sections labeled as "optional" can be skipped if they are not needed; Renovate can infer its own relevant values. The amount of whitespace between tokens, newlines between the comment and the version declaration, and the amount of indentation is flexible.
+
+Here is an example of this in action:
+```dockerfile
+# renovate: datasource=github-releases depName=AnarchoBooleanism/nixos-cloud-init-installer versioning=semver
+ARG NIXOS_CLOUDINIT_ISO_VERSION=v2.12.0
+```
+
+From the perspective of the Dockerfile parser, it just sees the `NIXOS_CLOUDINIT_ISO_VERSION` argument defined as `v2.12.0`. However, Renovate is able to see the datasource (`github-releases`), the dependency/package name (`AnarchoBooleanism/nixos-cloud-init-installer`), a versioning type (`semver`), and a version number to change (`v2.12.0`), and can easily change the version number without affecting the formatting.
