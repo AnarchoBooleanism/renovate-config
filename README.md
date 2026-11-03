@@ -190,7 +190,7 @@ This repository provides a built-in custom manager for defining GitHub Runner ty
 - <KEY_NAME>: "<RUNNER_TYPE>-<VERSION_VALUE>"
 ```
 
-Note that unlike the generic custom package managers, this package manager is differentiated by having `github-actions` immediately after the `renovate:` string, with no extra whitespace in between. By specifying this specific custom manager, there are no extra options, since they are either implied or are inferred from the contents of the value (`<RUNNER_TYPE>_<VERSION_VALUE>`).
+Note that unlike the generic custom package managers, this package manager is differentiated by having `github-actions` immediately after the `renovate:` string, with no extra whitespace in between. By specifying this specific custom manager, there are no extra options, since they are either implied or are inferred from the contents of the value (`<RUNNER_TYPE>-<VERSION_VALUE>`).
 
 As well, like in the generic YAML package manager, this can be used for where dictionaries are entries in arrays, which are prefixed by hyphens. The amount of whitespace between tokens, newlines between the comment and the version declaration, and the amount of indentation is flexible. You are welcome to not use quotes for the YAML value, as well.
 
