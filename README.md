@@ -139,7 +139,10 @@ Like the default configuration, it is best practice for reproducibility to use m
 ## Custom package managers
 In addition to the pre-defined package manager types in Renovate, you can also add your own; this can be useful for package ecosystems that Renovate does not support or for package version declarations outside of a formal package manager.
 
-### YAML definitions
+### Generic package managers
+The below custom package managers (for each file type) are generic, supporting any datasource or dependency/package.
+
+#### YAML definitions
 This repository provides a built-in custom manager for YAML files. To use it, use this format:
 ```yaml
 # renovate: datasource=DATASOURCE depName=DEPNAME versioning=OPTIONAL_VERSIONING registryUrl=OPTIONAL_REGISTRY_URL
@@ -158,7 +161,7 @@ NIXOS_CLOUDINIT_ISO_VERSION: &cloudinit-iso-version "v2.12.0"
 
 From the perspective of the YAML parser, it just sees the `NIXOS_CLOUDINIT_ISO_VERSION` key defined as `v2.12.0`, with an anchor (`cloudinit-iso-version`) attached to it. However, Renovate is able to see the datasource (`github-releases`), the dependency/package name (`AnarchoBooleanism/nixos-cloud-init-installer`), a versioning type (`semver`), and a version number to change (`v2.12.0`), and can easily change the version number without affecting the formatting.
 
-### Dockerfile definitions
+#### Dockerfile definitions
 This repository also provides a built-in custom manager for Dockerfiles (only for `ARG`). To use it, use this format (note that no quotes are involved):
 ```dockerfile
 # renovate: datasource=DATASOURCE depName=DEPNAME versioning=OPTIONAL_VERSIONING
@@ -174,3 +177,37 @@ ARG NIXOS_CLOUDINIT_ISO_VERSION=v2.12.0
 ```
 
 From the perspective of the Dockerfile parser, it just sees the `NIXOS_CLOUDINIT_ISO_VERSION` argument defined as `v2.12.0`. However, Renovate is able to see the datasource (`github-releases`), the dependency/package name (`AnarchoBooleanism/nixos-cloud-init-installer`), a versioning type (`semver`), and a version number to change (`v2.12.0`), and can easily change the version number without affecting the formatting.
+
+### Type-specific package managers
+The below custom package managers are more specific, providing support for specific datasources within certain files and in more specific formats.
+
+#### GitHub Runners (for GitHub Actions)
+This repository provides a built-in custom manager for defining GitHub Runner types in GitHub Actions workflows, in cases where Renovate is unable to automatically detect values that map to pinned GitHub Runners (e.g. in multi-architecture matrixes). To use it, use this format:
+```yaml
+# renovate:github-actions
+<KEY_NAME>: "<RUNNER_TYPE>-<VERSION_VALUE>"
+# or
+- <KEY_NAME>: "<RUNNER_TYPE>-<VERSION_VALUE>"
+```
+
+Note that unlike the generic custom package managers, this package manager is differentiated by having `github-actions` immediately after the `renovate:` string, with no extra whitespace in between. By specifying this specific custom manager, there are no extra options, since they are either implied or are inferred from the contents of the value (`<RUNNER_TYPE>-<VERSION_VALUE>`).
+
+As well, like in the generic YAML package manager, this can be used for where dictionaries are entries in arrays, which are prefixed by hyphens. The amount of whitespace between tokens, newlines between the comment and the version declaration, and the amount of indentation is flexible. You are welcome to not use quotes for the YAML value, as well.
+
+Here is an example of this in action:
+```yaml
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - architecture: amd64
+            # renovate:github-runners
+            os: ubuntu-24.04
+          - architecture: arm64
+            # renovate:github-runners
+            os: ubuntu-24.04-arm
+    runs-on: ${{ matrix.os }}
+```
+
+From the perspective of the YAML parser (and of GitHub Actions), it only sees `os` defined as either `ubuntu-24.04` or `ubuntu-24.04-arm`, which will then be used to define the specific runner used by an instance of a job. However, Renovate is able to detect, after detecting the `# renovate:github-runners` string, that the dependency (the runner type) is `ubuntu` and that its version is `24.04` or `24.04-arm`, and can update the runner version accordingly.
