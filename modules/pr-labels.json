@@ -30,7 +30,7 @@
     },
     { // Renovate-only
       "addLabels": ["ansible"], // Color: TBD
-      "matchManagers": ["ansible", "nuget", "unity3d"]
+      "matchManagers": ["ansible"]
     },
     { // Renovate-only
       "addLabels": ["apm"], // Color: TBD
