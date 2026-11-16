@@ -12,6 +12,7 @@ The `default` preset does a number of things for a repository that uses it:
 - Adds labels for pull requests based on the package ecosystem (from `modules/pr-labels`)
 - Creates a custom manager type that can be applied to any version number declaration in any YAML file (from `modules/managers`)
 - Groups updates for presets from this repository together for pull requests (from `modules/groups`)
+- Creates rules for specific packages, to properly follow versioning (from `modules/package-rules`)
 
 **NOTE**: Unlike Dependabot, Renovate does not automatically create labels for package ecosystems, with colors and descriptions! When introducing new package ecosystems to a repository, make sure to create a label for the ecosystem with the color described in this repository's Renovate file! As well, make sure to use this template for the label's description: `Pull requests that update <ECOSYSTEM> code`
 
@@ -108,6 +109,7 @@ Furthermore, if the presets in this repository are referenced more than once (an
 There also exist various modules of configuration in the case you don't want to pull `default.json` wholesale, all in the `modules` subdirectory:
 - `groups`: Defines groups of packages to group together for pull requests, including that of the presets of this repository
 - `managers`: Defines custom managers, e.g. the custom YAML comment manager
+- `package-rules`: Creates rules for specific packages, limiting tags/versions pulled in
 - `pr-labels`: Creates rules for creating labels for pull requests, based on package ecosystem
 - `scheduling`: Rules for schedule and time-based limits
 - `self-update`: Functionality for self-updating this Renovate configuration as a dependency in other repositories

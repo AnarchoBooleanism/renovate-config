@@ -12,6 +12,7 @@
     // In-repo
     "./modules/groups.json",
     "./modules/managers.json",
+    "./modules/package-rules.json",
     "./modules/pr-labels.json",
     "./modules/scheduling.json",
     "./modules/self-update.json"
