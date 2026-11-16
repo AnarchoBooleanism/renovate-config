@@ -42,7 +42,7 @@
     },
     { // Renovate-only
       "addLabels": ["batect"], // Color: TBD
-      "matchManagers": ["batect", "batech-wrapper"]
+      "matchManagers": ["batect"]
     },
     {
       "addLabels": ["bazel"], // Color: #000000
@@ -82,7 +82,7 @@
     },
     { // Custom-made for here
       "addLabels": ["custom_managers"], // Color: #000000
-      "matchManagers": ["custom.regex", "jsonata"] 
+      "matchManagers": ["custom.regex"] 
     },
     // { // Does not exist in Renovate
     //   "addLabels": ["conda"] // Color: #44A047
