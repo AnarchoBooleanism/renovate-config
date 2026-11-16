@@ -1,0 +1,17 @@
+// Rules for specific packages
+
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+
+  "description": "Rules for specific packages",
+
+  // Package rules
+  "packageRules": [
+    {
+      // To avoid pulling in tags that don't correspond to NixOS versions
+      "matchDatasources": ["github-tags"],
+      "matchPackageNames": ["NixOS/nixpkgs"],
+      "allowedVersions": "/^[0-9]{2}\\.[0-9]{2}$/" // Anything like "26.05"
+    }
+  ]
+}
